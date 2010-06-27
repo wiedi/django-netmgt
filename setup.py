@@ -10,4 +10,3 @@ setup(
 	description = "network management tool for django",
 	license = "BSD",
 )
-
