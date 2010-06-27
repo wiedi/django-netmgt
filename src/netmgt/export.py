@@ -4,16 +4,16 @@ import tempfile
 import IPy
 import time
 from models import Zone, Record, Address, Device
-from settings import DEFAULT_NAMESERVERS, DEFAULT_TTL, HOSTMASTER, SOA, MASTERS, SITE_NAME
+from django.conf import settings
 
 def create_soa(ttl = None):
 	if not ttl:
-		ttl = DEFAULT_TTL
+		ttl = settings.NETMGT_DEFAULT_TTL
 		
 	soa = '$TTL    ' + str(ttl) + '\n'
-	soa +='@       IN      SOA     ' + MASTERS[0] + ' ' + HOSTMASTER + \
+	soa +='@       IN      SOA     ' + settings.NETMGT_MASTERS[0] + ' ' + settings.NETMGT_HOSTMASTER + \
 		' ( {serial} {refresh} {retry} {expiry} {minimum} )'.format(serial=int(time.time()), **SOA)
-	for ns in DEFAULT_NAMESERVERS:
+	for ns in settings.NETMGT_DEFAULT_NAMESERVERS:
 		soa += "        IN      NS      " + ns + "\n"
 	return soa
 	
@@ -47,17 +47,17 @@ def export(request):
 	z = zipfile.ZipFile(response, mode='w')
 	fruky_zones = "# generated - don't touch\n"
 	for k in files:
-		z.writestr(SITE_NAME + '/' + k + 'zone', files[k])
-		fruky_zones += 'zone "' + k[4:] + '" { type master; file "pri/' + SITE_NAME + '/' + k + 'zone"; };\n'
-	z.writestr(SITE_NAME + '.zones', fruky_zones)
+		z.writestr(settings.NETMGT_SITE_NAME + '/' + k + 'zone', files[k])
+		fruky_zones += 'zone "' + k[4:] + '" { type master; file "pri/' + settings.NETMGT_SITE_NAME + '/' + k + 'zone"; };\n'
+	z.writestr(settings.NETMGT_SITE_NAME + '.zones', fruky_zones)
 
 	return response
 	
 
 def slave(request):
 	response = HttpResponse(mimetype='text/plain')
-	masters = '; '.join(MASTERS) + ';'
-	tpl = 'zone "%s" {type slave; masters { ' + masters + ' }; file "sec/' + SITE_NAME + '/%s/%szone"; };\n'
+	masters = '; '.join(settings.NETMGT_MASTERS) + ';'
+	tpl = 'zone "%s" {type slave; masters { ' + masters + ' }; file "sec/' + settings.NETMGT_SITE_NAME + '/%s/%szone"; };\n'
 
 	done = []
 
