@@ -3,12 +3,10 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.http import condition
 from django.conf import settings
 from models import *
-import zipfile
-import tempfile
-import IPy
 import datetime
-import time
 import hashlib
+import zipfile
+import IPy
 
 def create_soa(zone, ttl = None, serial = 0):
 	if not ttl:
