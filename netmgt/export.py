@@ -92,6 +92,8 @@ def generate_nsd_conf(zones):
 
 
 def total_last_modified(request=None):
+	# refresh caches:
+	generate_zones()
 	try:
 		return CachedZone.objects.values_list('updated', flat=True).order_by('-updated')[0]
 	except IndexError:
