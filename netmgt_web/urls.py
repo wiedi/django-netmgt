@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
+admin.site.site_header = 'Network Management Tool'
 admin.autodiscover()
 
 urlpatterns = patterns('',
