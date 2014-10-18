@@ -13,7 +13,7 @@ class Template(models.Model):
 class Zone(models.Model):
 	name      = models.CharField(max_length=default_length, primary_key=True, unique=True)
 	ttl       = models.IntegerField(null=True, blank=True, verbose_name='TTL')
-	templates = models.ManyToManyField(Template)
+	templates = models.ManyToManyField(Template, blank=True)
 
 	def __unicode__(self):
 		return self.name + '.'
