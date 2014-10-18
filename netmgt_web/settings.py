@@ -77,3 +77,4 @@ NETMGT_SOA = {
 	'expiry':  '2w',
 	'minimum': '1h',
 }
+NETMGT_DNS_TOKEN = 'secure'
