@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import PermissionDenied
 from django.views.decorators.http import condition
 from django.conf import settings
 from models import *
@@ -105,6 +106,8 @@ def etag_last_modified(request=None):
 
 
 def text(request):
+	if request.GET.get('token', False) != settings.NETMGT_DNS_TOKEN:
+		raise PermissionDenied
 	zones = generate_zones()
 	response = HttpResponse(content_type='text/plain')
 	response.write('\n\n'.join(zones.values()))
@@ -113,6 +116,8 @@ def text(request):
 
 @condition(etag_func=etag_last_modified, last_modified_func=total_last_modified)
 def export(request):
+	if request.GET.get('token', False) != settings.NETMGT_DNS_TOKEN:
+		raise PermissionDenied
 	zones = generate_zones()
 	response = HttpResponse(content_type='application/x-zip')
 	response['Content-Disposition'] = 'attachment; filename=zones.zip'
