@@ -1,18 +1,21 @@
 from netmgt.models import *
 from django.contrib import admin
-
+from forms import *
 
 class ZoneRecordAdmin(admin.TabularInline):
 	model = ZoneRecord
+	form  = ZoneRecordForm
 
 class TemplateRecordAdmin(admin.TabularInline):
 	model = TemplateRecord
+	form  = TemplateRecordForm
 
 class AddressInline(admin.TabularInline):
 	model = Address
 	exclude = ('reverse_zone',)
 
 class ZoneAdmin(admin.ModelAdmin):
+	form = ZoneAdminForm
 	inlines = [AddressInline, ZoneRecordAdmin]
 
 class TemplateAdmin(admin.ModelAdmin):
