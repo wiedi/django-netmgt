@@ -123,7 +123,7 @@ def export(request):
 	response['Content-Disposition'] = 'attachment; filename=zones.zip'
 	z = zipfile.ZipFile(response, mode='w')
 	for zone_name, zone in zones.items():
-		filename = 'zone/' + zone_name + 'zone'
+		filename = 'zones/' + zone_name + 'zone'
 		try:
 			last_modified = CachedZone.objects.values_list('updated', flat=True).get(key=zone_name)
 		except ObjectDoesNotExist:
