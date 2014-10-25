@@ -83,3 +83,4 @@ NETMGT_SOA = {
 	'minimum': '1h',
 }
 NETMGT_DNS_TOKEN = 'secure'
+NETMGT_EXPORT_PREFIX = 'core'

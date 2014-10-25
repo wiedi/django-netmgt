@@ -75,11 +75,13 @@ def generate_zones():
 
 	return zones
 
+def zone_filename(zone_name):
+	return "zones/" + settings.NETMGT_EXPORT_PREFIX + "/" + zone_name + "zone"
 
 def generate_bind_conf(zones):
 	out = '# generated - do not modify\n'
 	for zone in zones.keys():
-		out += 'zone "' + zone + '" { type master; file "zones/' + zone + 'zone"; };\n'
+		out += 'zone "' + zone + '" { type master; file "' + zone_filename(zone) + '"; };\n'
 	return out
 
 
@@ -88,7 +90,7 @@ def generate_nsd_conf(zones):
 	for zone in zones.keys():
 		out += 'zone:\n'
 		out += '\tname: ' + zone + '\n'
-		out += '\tzonefile: zones/' + zone + 'zone\n\n'
+		out += '\tzonefile: ' + zone_filename(zone) + '\n\n'
 	return out
 
 
@@ -123,13 +125,19 @@ def export(request):
 	response['Content-Disposition'] = 'attachment; filename=zones.zip'
 	z = zipfile.ZipFile(response, mode='w')
 	for zone_name, zone in zones.items():
-		filename = 'zones/' + zone_name + 'zone'
+		filename = zone_filename(zone_name)
 		try:
 			last_modified = CachedZone.objects.values_list('updated', flat=True).get(key=zone_name)
 		except ObjectDoesNotExist:
 			last_modified = datetime.datetime.now()
 		z.writestr(zipfile.ZipInfo(filename, date_time=last_modified.timetuple()), zone)
 	last_modified = total_last_modified().timetuple()
-	z.writestr(zipfile.ZipInfo('zones-bind.conf', date_time=last_modified), generate_bind_conf(zones))
-	z.writestr(zipfile.ZipInfo('zones-nsd.conf',  date_time=last_modified), generate_nsd_conf(zones))
+	z.writestr(
+		zipfile.ZipInfo('zones/' + settings.NETMGT_EXPORT_PREFIX + '-bind.conf', date_time=last_modified),
+		generate_bind_conf(zones)
+	)
+	z.writestr(
+		zipfile.ZipInfo('zones/' + settings.NETMGT_EXPORT_PREFIX + '-nsd.conf',  date_time=last_modified),
+		generate_nsd_conf(zones)
+	)
 	return response
