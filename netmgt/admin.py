@@ -17,20 +17,25 @@ class AddressInline(admin.TabularInline):
 class ZoneAdmin(admin.ModelAdmin):
 	form = ZoneAdminForm
 	inlines = [AddressInline, ZoneRecordAdmin]
+	search_fields = ['name']
 
 class TemplateAdmin(admin.ModelAdmin):
 	inlines = [TemplateRecordAdmin]
+	search_fields = ['name']
 
 class AddressAdmin(admin.ModelAdmin):
-	list_display = ('ip', 'prefix_len', 'subnet', 'reverse_zone', 'device')
+	list_display  = ('ip', 'prefix_len', 'subnet', 'reverse_zone', 'device')
+	search_fields = ['ip', 'device']
 
 class ContactAdmin(admin.ModelAdmin):
-	list_display = ('nick', 'name', 'email')
+	list_display  = ('nick', 'name', 'email')
+	search_fields = ['nick', 'name', 'email']
 
 class DeviceAdmin(admin.ModelAdmin):
 	inlines = [AddressInline,]
-	list_display = ('name', 'contact', 'type', 'os', 'info')
-	list_filter = ('contact', 'type', 'os')
+	list_display  = ('name', 'contact', 'type', 'os', 'info')
+	list_filter   = ('contact', 'type', 'os')
+	search_fields = ['name']
 
 admin.site.register(Template, TemplateAdmin)
 admin.site.register(Zone, ZoneAdmin)
