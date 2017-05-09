@@ -23,6 +23,7 @@ class Record(models.Model):
 	RECORD_TYPES = (
 		('A',      'A'),
 		('AAAA',   'AAAA'),
+		('CAA',    'CAA'),
 		('CERT',   'CERT'),
 		('CNAME',  'CNAME'),
 		('DNSKEY', 'DNSKEY'),
