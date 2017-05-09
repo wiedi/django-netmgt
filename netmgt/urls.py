@@ -1,7 +1,7 @@
-from django.conf.urls import patterns
-import export
+from django.conf.urls import url
+from .export import *
 
-urlpatterns = patterns('',
-	(r'^export/zones.zip', export.export),
-	(r'^export/zones.txt', export.text),
-)
+urlpatterns = [
+	url(r'^export/zones.zip', export),
+	url(r'^export/zones.txt', text),
+]

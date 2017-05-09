@@ -1,7 +1,8 @@
 from django import forms
 from django.core.validators import validate_integer
 from django.utils.translation import ugettext_lazy as _
-from models import Zone, ZoneRecord, TemplateRecord
+from django.utils.encoding import smart_text
+from .models import Zone, ZoneRecord, TemplateRecord
 import IPy
 
 
@@ -17,6 +18,7 @@ def full_domain_validator(hostname):
 		- Labels can't start or end with a hyphen.
 	"""
 	HOSTNAME_LABEL_PATTERN = re.compile("(?!-)[A-Z\d-]+(?<!-)$", re.IGNORECASE)
+	hostname = smart_text(hostname)
 	if not hostname:
 		return
 	if len(hostname) > 255:

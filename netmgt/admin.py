@@ -1,6 +1,6 @@
 from netmgt.models import *
 from django.contrib import admin
-from forms import *
+from .forms import *
 
 class ZoneRecordAdmin(admin.TabularInline):
 	model = ZoneRecord
