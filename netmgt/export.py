@@ -15,10 +15,10 @@ def create_soa(zone, ttl = None, serial = 0):
 
 	soa  = '; zone: ' + str(zone) + '\n'
 	soa += '$TTL    ' + str(ttl) + '\n'
-	soa += '@       IN      SOA     ' + settings.NETMGT_DEFAULT_NAMESERVERS[0] + '. ' + settings.NETMGT_HOSTMASTER + \
+	soa += '@                  IN      SOA     ' + settings.NETMGT_DEFAULT_NAMESERVERS[0] + '. ' + settings.NETMGT_HOSTMASTER + \
 		'. ( {serial} {refresh} {retry} {expiry} {minimum} )\n'.format(serial=serial, **settings.NETMGT_SOA)
 	for ns in settings.NETMGT_DEFAULT_NAMESERVERS:
-		soa += "        IN      NS      " + ns + ".\n"
+		soa += "        " + str(settings.NETMGT_DEFAULT_NAMESERVERS_TTL) + "      IN      NS      " + ns + ".\n"
 	return soa
 
 def generate_zone(zone, serial = 0):
