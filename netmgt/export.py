@@ -3,7 +3,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.exceptions import PermissionDenied
 from django.views.decorators.http import condition
 from django.conf import settings
-from models import *
+from .models import *
 import datetime
 import hashlib
 import zipfile
@@ -13,12 +13,12 @@ def create_soa(zone, ttl = None, serial = 0):
 	if not ttl:
 		ttl = settings.NETMGT_DEFAULT_TTL
 
-	soa  = '; zone: ' + zone + '\n'
+	soa  = '; zone: ' + str(zone) + '\n'
 	soa += '$TTL    ' + str(ttl) + '\n'
-	soa += '@       IN      SOA     ' + settings.NETMGT_DEFAULT_NAMESERVERS[0] + '. ' + settings.NETMGT_HOSTMASTER + \
+	soa += '@                  IN      SOA     ' + settings.NETMGT_DEFAULT_NAMESERVERS[0] + '. ' + settings.NETMGT_HOSTMASTER + \
 		'. ( {serial} {refresh} {retry} {expiry} {minimum} )\n'.format(serial=serial, **settings.NETMGT_SOA)
 	for ns in settings.NETMGT_DEFAULT_NAMESERVERS:
-		soa += "        IN      NS      " + ns + ".\n"
+		soa += "        " + str(settings.NETMGT_DEFAULT_NAMESERVERS_TTL) + "      IN      NS      " + ns + ".\n"
 	return soa
 
 def generate_zone(zone, serial = 0):
@@ -26,7 +26,7 @@ def generate_zone(zone, serial = 0):
 	out += '; devices\n'
 	for address in zone.address_set.all().order_by('name', 'prefix_len'):
 		record_type = 'A' if IPy.IP(address.ip).version() == 4 else 'AAAA'
-		out += address.name + '.' + unicode(zone) + ' IN ' + record_type + ' ' + address.ip + '\n'
+		out += address.name + '.' + str(zone) + ' IN ' + record_type + ' ' + address.ip + '\n'
 
 	for template in zone.templates.all().order_by('name'):
 		out += '; template: ' + str(template) + '\n'
@@ -35,7 +35,7 @@ def generate_zone(zone, serial = 0):
 
 	out += '; records\n'
 	for record in zone.zonerecord_set.all().order_by('name', 'type', 'value'):
-		out += unicode(record) + "\n"
+		out += str(record) + "\n"
 	return out
 
 def generate_reverse_zone(reverse_zone, serial = 0):
@@ -51,7 +51,7 @@ def generate_reverse_zone(reverse_zone, serial = 0):
 
 
 def get_cached_zone(zone, generate_function):
-	tag = hashlib.sha224(generate_function(zone)).hexdigest()
+	tag = hashlib.sha224(generate_function(zone).encode('utf-8')).hexdigest()
 	now = datetime.datetime.now()
 	defaults = {
 		'tag':     tag,
