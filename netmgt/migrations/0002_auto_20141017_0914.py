@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
                 ('ttl', models.IntegerField(null=True, verbose_name=b'TTL', blank=True)),
                 ('type', models.CharField(max_length=8, choices=[(b'A', b'A'), (b'AAAA', b'AAAA'), (b'CERT', b'CERT'), (b'CNAME', b'CNAME'), (b'DNSKEY', b'DNSKEY'), (b'DS', b'DS'), (b'DNSKEY', b'DNSKEY'), (b'KEY', b'KEY'), (b'LOC', b'LOC'), (b'MX', b'MX'), (b'NAPTR', b'NAPTR'), (b'NS', b'NS'), (b'NSEC', b'NSEC'), (b'PTR', b'PTR'), (b'RRSIG', b'RRSIG'), (b'SPF', b'SPF'), (b'SRV', b'SRV'), (b'TXT', b'TXT')])),
                 ('value', models.CharField(max_length=250)),
-                ('template', models.ForeignKey(to='netmgt.Template')),
+                ('template', models.ForeignKey(to='netmgt.Template', on_delete = models.CASCADE)),
             ],
             options={
                 'abstract': False,

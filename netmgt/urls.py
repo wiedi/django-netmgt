@@ -1,7 +1,7 @@
-from django.conf.urls import url
-from .export import *
+from django.urls import include, path
+import netmgt.export as export
 
 urlpatterns = [
-	url(r'^export/zones.zip', export),
-	url(r'^export/zones.txt', text),
+	path('export/zones.zip', export.export),
+	path('export/zones.txt', export.text),
 ]

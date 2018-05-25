@@ -4,7 +4,7 @@ from django.core.exceptions import PermissionDenied
 from django.views.decorators.http import condition
 from django.conf import settings
 from .models import *
-import datetime
+from django.utils.timezone import now
 import hashlib
 import zipfile
 import IPy
@@ -52,11 +52,11 @@ def generate_reverse_zone(reverse_zone, serial = 0):
 
 def get_cached_zone(zone, generate_function):
 	tag = hashlib.sha224(generate_function(zone).encode('utf-8')).hexdigest()
-	now = datetime.datetime.now()
+	n = now()
 	defaults = {
 		'tag':     tag,
-		'value':   generate_function(zone, now.strftime('%s')),
-		'updated': now,
+		'value':   generate_function(zone, n.strftime('%s')),
+		'updated': n,
 	}
 	cache, created = CachedZone.objects.get_or_create(key = str(zone), defaults = defaults)
 	if cache.tag != tag:
@@ -100,7 +100,7 @@ def total_last_modified(request=None):
 	try:
 		return CachedZone.objects.values_list('updated', flat=True).order_by('-updated')[0]
 	except IndexError:
-		return datetime.datetime.now()
+		return now()
 
 
 def etag_last_modified(request=None):
@@ -129,7 +129,7 @@ def export(request):
 		try:
 			last_modified = CachedZone.objects.values_list('updated', flat=True).get(key=zone_name)
 		except ObjectDoesNotExist:
-			last_modified = datetime.datetime.now()
+			last_modified = now()
 		z.writestr(zipfile.ZipInfo(filename, date_time=last_modified.timetuple()), zone)
 	last_modified = total_last_modified().timetuple()
 	z.writestr(

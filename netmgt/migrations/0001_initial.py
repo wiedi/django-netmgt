@@ -41,7 +41,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=250)),
                 ('info', models.CharField(max_length=250, blank=True)),
-                ('contact', models.ForeignKey(to='netmgt.Contact')),
+                ('contact', models.ForeignKey(to='netmgt.Contact', on_delete = models.PROTECT)),
             ],
             options={
             },
@@ -93,31 +93,31 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='record',
             name='zone',
-            field=models.ForeignKey(to='netmgt.Zone'),
+            field=models.ForeignKey(to='netmgt.Zone', on_delete = models.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='device',
             name='os',
-            field=models.ForeignKey(verbose_name=b'Operating System', to='netmgt.OperatingSystem'),
+            field=models.ForeignKey(verbose_name=b'Operating System', to='netmgt.OperatingSystem', on_delete = models.PROTECT),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='device',
             name='type',
-            field=models.ForeignKey(to='netmgt.DeviceType'),
+            field=models.ForeignKey(to='netmgt.DeviceType', on_delete = models.PROTECT),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='address',
             name='device',
-            field=models.ForeignKey(to='netmgt.Device'),
+            field=models.ForeignKey(to='netmgt.Device', on_delete = models.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='address',
             name='zone',
-            field=models.ForeignKey(to='netmgt.Zone'),
+            field=models.ForeignKey(to='netmgt.Zone', on_delete = models.CASCADE),
             preserve_default=True,
         ),
     ]

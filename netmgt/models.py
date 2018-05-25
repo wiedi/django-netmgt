@@ -62,14 +62,14 @@ class Record(models.Model):
 
 
 class ZoneRecord(Record):
-	zone = models.ForeignKey(Zone)
+	zone = models.ForeignKey(Zone, on_delete = models.CASCADE)
 
 	def __str__(self):
 		return self.format(str(self.zone))
 
 
 class TemplateRecord(Record):
-	template  = models.ForeignKey(Template)
+	template  = models.ForeignKey(Template, on_delete = models.CASCADE)
 
 
 class OperatingSystem(models.Model):
@@ -94,9 +94,9 @@ class Contact(models.Model):
 
 class Device(models.Model):
 	name    = models.CharField(max_length=default_length)
-	contact = models.ForeignKey(Contact)
-	type    = models.ForeignKey(DeviceType)
-	os      = models.ForeignKey(OperatingSystem, verbose_name='Operating System')
+	contact = models.ForeignKey(Contact, on_delete = models.PROTECT)
+	type    = models.ForeignKey(DeviceType, on_delete = models.PROTECT)
+	os      = models.ForeignKey(OperatingSystem, verbose_name='Operating System', on_delete = models.PROTECT)
 	info    = models.CharField(max_length=default_length, blank=True)
 
 	def __str__(self):
@@ -104,11 +104,11 @@ class Device(models.Model):
 
 
 class Address(models.Model):
-	device       = models.ForeignKey(Device)
+	device       = models.ForeignKey(Device, on_delete = models.CASCADE)
 	ip           = models.GenericIPAddressField()
 	prefix_len   = models.IntegerField(verbose_name='Prefix Length')
 	name         = models.CharField(max_length=default_length)
-	zone         = models.ForeignKey(Zone)
+	zone         = models.ForeignKey(Zone, on_delete = models.CASCADE)
 	reverse_zone = models.CharField(max_length=default_length)
 
 	def save(self, *args, **kwargs):
