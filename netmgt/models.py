@@ -111,7 +111,14 @@ class Address(models.Model):
 	reverse_zone = models.CharField(max_length=default_length)
 
 	def save(self, *args, **kwargs):
-		self.reverse_zone = IPy.IP(self.ip).make_net(self.prefix_len).reverseName()
+		a = IPy.IP(self.ip)
+		prefix_len = self.prefix_len
+		if a.version() == 4 and self.prefix_len < 24:
+			# RFC 2317 is an ugly hack which only works for sub-/24 e.g. not
+			# for /23. Do not use it. Let's fix it to 24
+			prefix_len = 24
+
+		self.reverse_zone = IPy.IP(self.ip).make_net(prefix_len).reverseName()
 		super(Address, self).save(*args, **kwargs)
 
 	def subnet(self):
