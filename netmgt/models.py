@@ -16,7 +16,7 @@ class Zone(models.Model):
 	templates = models.ManyToManyField(Template, blank=True)
 
 	def __str__(self):
-		return self.name + '.'
+		return str(self.name) + '.'
 
 
 class Record(models.Model):

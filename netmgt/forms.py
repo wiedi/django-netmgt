@@ -44,7 +44,7 @@ def ip_version_validator(value, version, message):
 
 class ZoneAdminForm(forms.ModelForm):
 	def clean_name(self):
-		name = self.cleaned_data["name"].encode('idna')
+		name = self.cleaned_data["name"].encode('idna').decode("utf-8")
 		full_domain_validator(name)
 		if name[-1] == '.':
 			raise forms.ValidationError("Zone name can't end with '.'")

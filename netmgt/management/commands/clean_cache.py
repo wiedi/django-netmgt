@@ -3,9 +3,11 @@ from optparse import make_option
 from netmgt.models import CachedZone, Zone, Address
 
 class Command(BaseCommand):
-	args = ''
 	help = 'Clean Zone cache from stale zones'
-	option_list = BaseCommand.option_list + (make_option('--force', action='store_true', help='Drop complete cache'),)
+
+	def add_arguments(self, parser):
+		parser.add_argument('--force', action = 'store_true', dest = 'force', default = False, help = 'Drop complete cache')
+
 
 	def handle(self, *args, **options):
 		qs = CachedZone.objects.all()
