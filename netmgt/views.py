@@ -8,11 +8,13 @@ class TemplateViewSet(viewsets.ModelViewSet):
 	queryset = Template.objects.all()
 	serializer_class = TemplateSerializer
 	permission_classes = [IsAuthenticated]
+	lookup_value_regex = '[0-9a-zA-Z._ -]+'
 
 class ZoneViewSet(viewsets.ModelViewSet):
 	queryset = Zone.objects.all()
 	serializer_class = ZoneSerializer
 	permission_classes = [IsAuthenticated]
+	lookup_value_regex = '[0-9a-zA-Z.]+'
 
 class TemplateRecordViewSet(viewsets.ModelViewSet):
 	queryset = TemplateRecord.objects.all()
@@ -28,11 +30,13 @@ class OperatingSystemViewSet(viewsets.ModelViewSet):
 	queryset = OperatingSystem.objects.all()
 	serializer_class = OperatingSystemSerializer
 	permission_classes = [IsAuthenticated]
+	lookup_value_regex = '[0-9a-zA-Z._ -]+'
 
 class DeviceTypeViewSet(viewsets.ModelViewSet):
 	queryset = DeviceType.objects.all()
 	serializer_class = DeviceTypeSerializer
 	permission_classes = [IsAuthenticated]
+	lookup_value_regex = '[0-9a-zA-Z._ -]+'
 
 class ContactViewSet(viewsets.ModelViewSet):
 	queryset = Contact.objects.all()
