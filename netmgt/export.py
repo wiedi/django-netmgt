@@ -24,17 +24,17 @@ def create_soa(zone, ttl = None, serial = 0):
 def generate_zone(zone, serial = 0):
 	out = create_soa(str(zone), zone.ttl, serial)
 	out += '; devices\n'
-	for address in zone.address_set.all().order_by('name', 'prefix_len'):
+	for address in zone.addresses.all().order_by('name', 'prefix_len'):
 		record_type = 'A' if IPy.IP(address.ip).version() == 4 else 'AAAA'
 		out += address.name + '.' + str(zone) + ' IN ' + record_type + ' ' + address.ip + '\n'
 
 	for template in zone.templates.all().order_by('name'):
 		out += '; template: ' + str(template) + '\n'
-		for record in template.templaterecord_set.all().order_by('name', 'type', 'value'):
+		for record in template.records.all().order_by('name', 'type', 'value'):
 			out += record.format(str(zone)) + "\n"
 
 	out += '; records\n'
-	for record in zone.zonerecord_set.all().order_by('name', 'type', 'value'):
+	for record in zone.records.all().order_by('name', 'type', 'value'):
 		out += str(record) + "\n"
 	return out
 

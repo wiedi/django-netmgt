@@ -1,0 +1,22 @@
+{% extends "rest_framework/base.html" %}
+{% load static %}
+
+{% block title %}NetMGT API{% endblock%}
+
+{% block branding %}
+	<a class="navbar-brand" rel="nofollow" href="#">NetMGT</a>
+{% endblock %}
+
+
+{% block bootstrap_theme %}
+	<link rel="stylesheet" type="text/css" href="{% static 'rest_framework/css/bootstrap.min.css' %}"/>
+	<link rel="stylesheet" type="text/css" href="{% static 'rest_framework/css/bootstrap-tweaks.css' %}"/>
+	<style>
+	.navbar {
+		border-top: #000;
+	}
+	body {
+		background: transparent;
+	}
+	</style>
+{% endblock %}
