@@ -52,7 +52,7 @@ class Record(models.Model):
 
 	def format(self, zone):
 		v = self.value
-		if self.type in ('TXT', 'SPF'):
+		if self.type in ('TXT', 'SPF') and v[0] != '"':
 			v = '"' + v + '"'
 		ttl = (' ' + str(self.ttl)) if self.ttl else ''
 		return (self.name + '.' if self.name else '') + zone + ttl + ' IN ' + self.type + ' ' + v
