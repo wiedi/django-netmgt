@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.exceptions import PermissionDenied
 from django.views.decorators.http import condition
+from django.views.decorators.cache import cache_page
 from django.conf import settings
 from .models import *
 from django.utils.timezone import now
@@ -106,7 +107,7 @@ def total_last_modified(request=None):
 def etag_last_modified(request=None):
 	return 'TS' + total_last_modified().strftime('%s')
 
-
+@cache_page(60 * 2)
 def text(request):
 	if request.GET.get('token', False) != settings.NETMGT_DNS_TOKEN:
 		raise PermissionDenied
@@ -116,6 +117,7 @@ def text(request):
 	return response
 
 
+@cache_page(60 * 2)
 @condition(etag_func=etag_last_modified, last_modified_func=total_last_modified)
 def export(request):
 	if request.GET.get('token', False) != settings.NETMGT_DNS_TOKEN:
