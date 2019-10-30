@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.views.generic.base import RedirectView
 
 admin.site.site_header = 'Network Management Tool'
+admin.site.site_title  = 'Network Management Tool'
 admin.autodiscover()
 
 urlpatterns = [
