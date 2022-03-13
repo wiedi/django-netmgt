@@ -57,8 +57,8 @@ class ZoneAdminForm(forms.ModelForm):
 
 class RecordForm(forms.ModelForm):
 	def clean_value(self):
-		rtype = self.cleaned_data["type"]
-		value = self.cleaned_data["value"]
+		rtype = self.cleaned_data.get("type", None)
+		value = self.cleaned_data.get("value", None)
 		if rtype == 'A':
 			ip_version_validator(value, 4, "Need valid IPv4 Address for A record")
 		elif rtype == 'AAAA':
