@@ -1,5 +1,4 @@
 from django.urls import include, path
-from django.conf.urls import url
 from rest_framework import routers
 
 from netmgt.views import *
@@ -19,5 +18,5 @@ router.register(r'zone_record',     ZoneRecordViewSet)
 urlpatterns = [
 	path('export/zones.zip', export.export),
 	path('export/zones.txt', export.text),
-	url(r'^api/', include(router.urls)),
+	path('api/', include(router.urls)),
 ]

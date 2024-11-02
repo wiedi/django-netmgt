@@ -37,6 +37,8 @@ DATABASES = {
 	}
 }
 
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+
 CACHES = {
 	'default': {
 		'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
