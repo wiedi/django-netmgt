@@ -56,3 +56,4 @@ target/
 # Crap
 .DS_Store
 db.sqlite3
+*.sqlite3
