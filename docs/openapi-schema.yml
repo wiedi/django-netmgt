@@ -1,0 +1,1726 @@
+openapi: 3.0.3
+info:
+  title: ''
+  version: 0.0.0
+paths:
+  /netmgt/api/address/:
+    get:
+      operationId: address_list
+      tags:
+      - address
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Address'
+          description: ''
+    post:
+      operationId: address_create
+      tags:
+      - address
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Address'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Address'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Address'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Address'
+          description: ''
+  /netmgt/api/address/{id}/:
+    get:
+      operationId: address_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this address.
+        required: true
+      tags:
+      - address
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Address'
+          description: ''
+    put:
+      operationId: address_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this address.
+        required: true
+      tags:
+      - address
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Address'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Address'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Address'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Address'
+          description: ''
+    patch:
+      operationId: address_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this address.
+        required: true
+      tags:
+      - address
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAddress'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedAddress'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedAddress'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Address'
+          description: ''
+    delete:
+      operationId: address_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this address.
+        required: true
+      tags:
+      - address
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+  /netmgt/api/contact/:
+    get:
+      operationId: contact_list
+      tags:
+      - contact
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Contact'
+          description: ''
+    post:
+      operationId: contact_create
+      tags:
+      - contact
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Contact'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Contact'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Contact'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+          description: ''
+  /netmgt/api/contact/{nick}/:
+    get:
+      operationId: contact_retrieve
+      parameters:
+      - in: path
+        name: nick
+        schema:
+          type: string
+        description: A unique value identifying this contact.
+        required: true
+      tags:
+      - contact
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+          description: ''
+    put:
+      operationId: contact_update
+      parameters:
+      - in: path
+        name: nick
+        schema:
+          type: string
+        description: A unique value identifying this contact.
+        required: true
+      tags:
+      - contact
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Contact'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Contact'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Contact'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+          description: ''
+    patch:
+      operationId: contact_partial_update
+      parameters:
+      - in: path
+        name: nick
+        schema:
+          type: string
+        description: A unique value identifying this contact.
+        required: true
+      tags:
+      - contact
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedContact'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedContact'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedContact'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+          description: ''
+    delete:
+      operationId: contact_destroy
+      parameters:
+      - in: path
+        name: nick
+        schema:
+          type: string
+        description: A unique value identifying this contact.
+        required: true
+      tags:
+      - contact
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+  /netmgt/api/device/:
+    get:
+      operationId: device_list
+      tags:
+      - device
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Device'
+          description: ''
+    post:
+      operationId: device_create
+      tags:
+      - device
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Device'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Device'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Device'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+          description: ''
+  /netmgt/api/device/{id}/:
+    get:
+      operationId: device_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this device.
+        required: true
+      tags:
+      - device
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+          description: ''
+    put:
+      operationId: device_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this device.
+        required: true
+      tags:
+      - device
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Device'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Device'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Device'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+          description: ''
+    patch:
+      operationId: device_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this device.
+        required: true
+      tags:
+      - device
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedDevice'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedDevice'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedDevice'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+          description: ''
+    delete:
+      operationId: device_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this device.
+        required: true
+      tags:
+      - device
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+  /netmgt/api/device_type/:
+    get:
+      operationId: device_type_list
+      tags:
+      - device_type
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DeviceType'
+          description: ''
+    post:
+      operationId: device_type_create
+      tags:
+      - device_type
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceType'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DeviceType'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DeviceType'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceType'
+          description: ''
+  /netmgt/api/device_type/{name}/:
+    get:
+      operationId: device_type_retrieve
+      parameters:
+      - in: path
+        name: name
+        schema:
+          type: string
+        description: A unique value identifying this device type.
+        required: true
+      tags:
+      - device_type
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceType'
+          description: ''
+    put:
+      operationId: device_type_update
+      parameters:
+      - in: path
+        name: name
+        schema:
+          type: string
+        description: A unique value identifying this device type.
+        required: true
+      tags:
+      - device_type
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceType'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DeviceType'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DeviceType'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceType'
+          description: ''
+    patch:
+      operationId: device_type_partial_update
+      parameters:
+      - in: path
+        name: name
+        schema:
+          type: string
+        description: A unique value identifying this device type.
+        required: true
+      tags:
+      - device_type
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedDeviceType'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedDeviceType'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedDeviceType'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceType'
+          description: ''
+    delete:
+      operationId: device_type_destroy
+      parameters:
+      - in: path
+        name: name
+        schema:
+          type: string
+        description: A unique value identifying this device type.
+        required: true
+      tags:
+      - device_type
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+  /netmgt/api/os/:
+    get:
+      operationId: os_list
+      tags:
+      - os
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OperatingSystem'
+          description: ''
+    post:
+      operationId: os_create
+      tags:
+      - os
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OperatingSystem'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OperatingSystem'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OperatingSystem'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperatingSystem'
+          description: ''
+  /netmgt/api/os/{name}/:
+    get:
+      operationId: os_retrieve
+      parameters:
+      - in: path
+        name: name
+        schema:
+          type: string
+        description: A unique value identifying this operating system.
+        required: true
+      tags:
+      - os
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperatingSystem'
+          description: ''
+    put:
+      operationId: os_update
+      parameters:
+      - in: path
+        name: name
+        schema:
+          type: string
+        description: A unique value identifying this operating system.
+        required: true
+      tags:
+      - os
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OperatingSystem'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OperatingSystem'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OperatingSystem'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperatingSystem'
+          description: ''
+    patch:
+      operationId: os_partial_update
+      parameters:
+      - in: path
+        name: name
+        schema:
+          type: string
+        description: A unique value identifying this operating system.
+        required: true
+      tags:
+      - os
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedOperatingSystem'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedOperatingSystem'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedOperatingSystem'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperatingSystem'
+          description: ''
+    delete:
+      operationId: os_destroy
+      parameters:
+      - in: path
+        name: name
+        schema:
+          type: string
+        description: A unique value identifying this operating system.
+        required: true
+      tags:
+      - os
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+  /netmgt/api/template/:
+    get:
+      operationId: template_list
+      tags:
+      - template
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Template'
+          description: ''
+    post:
+      operationId: template_create
+      tags:
+      - template
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Template'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Template'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Template'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Template'
+          description: ''
+  /netmgt/api/template/{name}/:
+    get:
+      operationId: template_retrieve
+      parameters:
+      - in: path
+        name: name
+        schema:
+          type: string
+        description: A unique value identifying this template.
+        required: true
+      tags:
+      - template
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Template'
+          description: ''
+    put:
+      operationId: template_update
+      parameters:
+      - in: path
+        name: name
+        schema:
+          type: string
+        description: A unique value identifying this template.
+        required: true
+      tags:
+      - template
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Template'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Template'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Template'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Template'
+          description: ''
+    patch:
+      operationId: template_partial_update
+      parameters:
+      - in: path
+        name: name
+        schema:
+          type: string
+        description: A unique value identifying this template.
+        required: true
+      tags:
+      - template
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTemplate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTemplate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTemplate'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Template'
+          description: ''
+    delete:
+      operationId: template_destroy
+      parameters:
+      - in: path
+        name: name
+        schema:
+          type: string
+        description: A unique value identifying this template.
+        required: true
+      tags:
+      - template
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+  /netmgt/api/template_record/:
+    get:
+      operationId: template_record_list
+      tags:
+      - template_record
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TemplateRecord'
+          description: ''
+    post:
+      operationId: template_record_create
+      tags:
+      - template_record
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TemplateRecord'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TemplateRecord'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TemplateRecord'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateRecord'
+          description: ''
+  /netmgt/api/template_record/{id}/:
+    get:
+      operationId: template_record_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this template record.
+        required: true
+      tags:
+      - template_record
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateRecord'
+          description: ''
+    put:
+      operationId: template_record_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this template record.
+        required: true
+      tags:
+      - template_record
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TemplateRecord'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TemplateRecord'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TemplateRecord'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateRecord'
+          description: ''
+    patch:
+      operationId: template_record_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this template record.
+        required: true
+      tags:
+      - template_record
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTemplateRecord'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTemplateRecord'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTemplateRecord'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateRecord'
+          description: ''
+    delete:
+      operationId: template_record_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this template record.
+        required: true
+      tags:
+      - template_record
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+  /netmgt/api/zone/:
+    get:
+      operationId: zone_list
+      tags:
+      - zone
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Zone'
+          description: ''
+    post:
+      operationId: zone_create
+      tags:
+      - zone
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Zone'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Zone'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Zone'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Zone'
+          description: ''
+  /netmgt/api/zone/{name}/:
+    get:
+      operationId: zone_retrieve
+      parameters:
+      - in: path
+        name: name
+        schema:
+          type: string
+        description: A unique value identifying this zone.
+        required: true
+      tags:
+      - zone
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Zone'
+          description: ''
+    put:
+      operationId: zone_update
+      parameters:
+      - in: path
+        name: name
+        schema:
+          type: string
+        description: A unique value identifying this zone.
+        required: true
+      tags:
+      - zone
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Zone'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Zone'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Zone'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Zone'
+          description: ''
+    patch:
+      operationId: zone_partial_update
+      parameters:
+      - in: path
+        name: name
+        schema:
+          type: string
+        description: A unique value identifying this zone.
+        required: true
+      tags:
+      - zone
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedZone'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedZone'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedZone'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Zone'
+          description: ''
+    delete:
+      operationId: zone_destroy
+      parameters:
+      - in: path
+        name: name
+        schema:
+          type: string
+        description: A unique value identifying this zone.
+        required: true
+      tags:
+      - zone
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+  /netmgt/api/zone_record/:
+    get:
+      operationId: zone_record_list
+      tags:
+      - zone_record
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ZoneRecord'
+          description: ''
+    post:
+      operationId: zone_record_create
+      tags:
+      - zone_record
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ZoneRecord'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ZoneRecord'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ZoneRecord'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ZoneRecord'
+          description: ''
+  /netmgt/api/zone_record/{id}/:
+    get:
+      operationId: zone_record_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this zone record.
+        required: true
+      tags:
+      - zone_record
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ZoneRecord'
+          description: ''
+    put:
+      operationId: zone_record_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this zone record.
+        required: true
+      tags:
+      - zone_record
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ZoneRecord'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ZoneRecord'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ZoneRecord'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ZoneRecord'
+          description: ''
+    patch:
+      operationId: zone_record_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this zone record.
+        required: true
+      tags:
+      - zone_record
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedZoneRecord'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedZoneRecord'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedZoneRecord'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ZoneRecord'
+          description: ''
+    delete:
+      operationId: zone_record_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this zone record.
+        required: true
+      tags:
+      - zone_record
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    Address:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        device:
+          type: integer
+        ip:
+          type: string
+        prefix_len:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          title: Prefix Length
+        name:
+          type: string
+          maxLength: 250
+        zone:
+          type: string
+        reverse_zone:
+          type: string
+          readOnly: true
+      required:
+      - device
+      - id
+      - ip
+      - name
+      - prefix_len
+      - reverse_zone
+      - zone
+    Contact:
+      type: object
+      properties:
+        nick:
+          type: string
+          maxLength: 250
+        name:
+          type: string
+          maxLength: 250
+        email:
+          type: string
+          format: email
+          maxLength: 254
+      required:
+      - email
+      - name
+      - nick
+    Device:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 250
+        contact:
+          type: string
+        type:
+          type: string
+        os:
+          type: string
+          title: Operating System
+        info:
+          type: string
+          maxLength: 250
+        addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/Address'
+          readOnly: true
+      required:
+      - addresses
+      - contact
+      - id
+      - name
+      - os
+      - type
+    DeviceType:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 250
+      required:
+      - name
+    OperatingSystem:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 250
+      required:
+      - name
+    PatchedAddress:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        device:
+          type: integer
+        ip:
+          type: string
+        prefix_len:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          title: Prefix Length
+        name:
+          type: string
+          maxLength: 250
+        zone:
+          type: string
+        reverse_zone:
+          type: string
+          readOnly: true
+    PatchedContact:
+      type: object
+      properties:
+        nick:
+          type: string
+          maxLength: 250
+        name:
+          type: string
+          maxLength: 250
+        email:
+          type: string
+          format: email
+          maxLength: 254
+    PatchedDevice:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 250
+        contact:
+          type: string
+        type:
+          type: string
+        os:
+          type: string
+          title: Operating System
+        info:
+          type: string
+          maxLength: 250
+        addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/Address'
+          readOnly: true
+    PatchedDeviceType:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 250
+    PatchedOperatingSystem:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 250
+    PatchedTemplate:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 250
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateRecord'
+          readOnly: true
+    PatchedTemplateRecord:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        template:
+          type: string
+        name:
+          type: string
+          maxLength: 250
+        ttl:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          nullable: true
+        type:
+          $ref: '#/components/schemas/TypeEnum'
+        value:
+          type: string
+          maxLength: 250
+    PatchedZone:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 250
+        ttl:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          nullable: true
+        templates:
+          type: array
+          items:
+            type: string
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/ZoneRecord'
+          readOnly: true
+        addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/Address'
+          readOnly: true
+    PatchedZoneRecord:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        zone:
+          type: string
+        name:
+          type: string
+          maxLength: 250
+        ttl:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          nullable: true
+        type:
+          $ref: '#/components/schemas/TypeEnum'
+        value:
+          type: string
+          maxLength: 250
+    Template:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 250
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateRecord'
+          readOnly: true
+      required:
+      - name
+      - records
+    TemplateRecord:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        template:
+          type: string
+        name:
+          type: string
+          maxLength: 250
+        ttl:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          nullable: true
+        type:
+          $ref: '#/components/schemas/TypeEnum'
+        value:
+          type: string
+          maxLength: 250
+      required:
+      - id
+      - template
+      - type
+      - value
+    TypeEnum:
+      enum:
+      - A
+      - AAAA
+      - CAA
+      - CERT
+      - CNAME
+      - DNSKEY
+      - DS
+      - KEY
+      - LOC
+      - MX
+      - NAPTR
+      - NS
+      - NSEC
+      - PTR
+      - RRSIG
+      - SPF
+      - SRV
+      - TXT
+      type: string
+      description: |-
+        * `A` - A
+        * `AAAA` - AAAA
+        * `CAA` - CAA
+        * `CERT` - CERT
+        * `CNAME` - CNAME
+        * `DNSKEY` - DNSKEY
+        * `DS` - DS
+        * `KEY` - KEY
+        * `LOC` - LOC
+        * `MX` - MX
+        * `NAPTR` - NAPTR
+        * `NS` - NS
+        * `NSEC` - NSEC
+        * `PTR` - PTR
+        * `RRSIG` - RRSIG
+        * `SPF` - SPF
+        * `SRV` - SRV
+        * `TXT` - TXT
+    Zone:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 250
+        ttl:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          nullable: true
+        templates:
+          type: array
+          items:
+            type: string
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/ZoneRecord'
+          readOnly: true
+        addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/Address'
+          readOnly: true
+      required:
+      - addresses
+      - name
+      - records
+    ZoneRecord:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        zone:
+          type: string
+        name:
+          type: string
+          maxLength: 250
+        ttl:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          nullable: true
+        type:
+          $ref: '#/components/schemas/TypeEnum'
+        value:
+          type: string
+          maxLength: 250
+      required:
+      - id
+      - type
+      - value
+      - zone
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
