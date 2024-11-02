@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.db.models import Prefetch
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.exceptions import PermissionDenied
 from django.views.decorators.http import condition
@@ -25,24 +26,24 @@ def create_soa(zone, ttl = None, serial = 0):
 def generate_zone(zone, serial = 0):
 	out = create_soa(str(zone), zone.ttl, serial)
 	out += '; devices\n'
-	for address in zone.addresses.all().order_by('name', 'prefix_len'):
+	for address in zone.addresses.all():
 		record_type = 'A' if IPy.IP(address.ip).version() == 4 else 'AAAA'
 		out += address.name + '.' + str(zone) + ' IN ' + record_type + ' ' + address.ip + '\n'
 
-	for template in zone.templates.all().order_by('name'):
+	for template in zone.templates.all():
 		out += '; template: ' + str(template) + '\n'
-		for record in template.records.all().order_by('name', 'type', 'value'):
+		for record in template.records.all():
 			out += record.format(str(zone)) + "\n"
 
 	out += '; records\n'
-	for record in zone.records.all().order_by('name', 'type', 'value'):
+	for record in zone.records.all():
 		out += str(record) + "\n"
 	return out
 
 def generate_reverse_zone(reverse_zone, serial = 0):
 	out = create_soa(str(reverse_zone), None, serial)
 	out += '; devices\n'
-	for address in Address.objects.filter(reverse_zone = reverse_zone).order_by('ip'):
+	for address in Address.objects.prefetch_related("zone").filter(reverse_zone = reverse_zone).order_by('ip'):
 		a = IPy.IP(address.ip)
 		if address.prefix_len > 24 and address.prefix_len < 32 and a.version() == 4:
 			out += a.reverseName().split('.')[0] + '.' + reverse_zone + ' IN PTR ' + address.name + '.' + str(address.zone) + '\n'
@@ -68,7 +69,12 @@ def get_cached_zone(zone, generate_function):
 
 def generate_zones():
 	zones = {}
-	for zone in Zone.objects.all():
+	for zone in Zone.objects.prefetch_related(
+			Prefetch("records", queryset=ZoneRecord.objects.order_by('name', 'type', 'value')),
+			Prefetch("addresses", queryset=Address.objects.order_by('name', 'prefix_len')),
+			Prefetch("templates", queryset=Template.objects.order_by('name')),
+			Prefetch("templates__records", queryset=TemplateRecord.objects.order_by('name', 'type', 'value')),
+		).all():
 		zones[str(zone)] = get_cached_zone(zone, generate_zone)
 
 	for reverse_zone in Address.objects.values_list('reverse_zone', flat=True).distinct():

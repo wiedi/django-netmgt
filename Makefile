@@ -14,3 +14,5 @@ django-shell:
 
 schema:
 	docker exec -it netmgt-app-1 bash -c './manage.py spectacular --file docs/openapi-schema.yml --validate'
+test:
+	docker exec -it netmgt-app-1 bash -c "pytest"

@@ -16,7 +16,7 @@ router.register(r'zone',            ZoneViewSet)
 router.register(r'zone_record',     ZoneRecordViewSet)
 
 urlpatterns = [
-	path('export/zones.zip', export.export),
-	path('export/zones.txt', export.text),
+	path('export/zones.zip', export.export, name="export_zip"),
+	path('export/zones.txt', export.text, name="export_text"),
 	path('api/', include(router.urls)),
 ]
