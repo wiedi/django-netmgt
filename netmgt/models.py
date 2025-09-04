@@ -1,7 +1,8 @@
-from django.db import models
 import IPy
+from django.db import models
 
 default_length = 250
+
 
 class Template(models.Model):
 	name = models.CharField(max_length=default_length, primary_key=True, unique=True)
@@ -11,40 +12,40 @@ class Template(models.Model):
 
 
 class Zone(models.Model):
-	name      = models.CharField(max_length=default_length, primary_key=True, unique=True)
-	ttl       = models.IntegerField(null=True, blank=True, verbose_name='TTL')
+	name = models.CharField(max_length=default_length, primary_key=True, unique=True)
+	ttl = models.IntegerField(null=True, blank=True, verbose_name="TTL")
 	templates = models.ManyToManyField(Template, blank=True)
 
 	def __str__(self):
-		return str(self.name) + '.'
+		return str(self.name) + "."
 
 
 class Record(models.Model):
 	RECORD_TYPES = (
-		('A',      'A'),
-		('AAAA',   'AAAA'),
-		('CAA',    'CAA'),
-		('CERT',   'CERT'),
-		('CNAME',  'CNAME'),
-		('DNSKEY', 'DNSKEY'),
-		('DS',     'DS'),
-		('DNSKEY', 'DNSKEY'),
-		('KEY',    'KEY'),
-		('LOC',    'LOC'),
-		('MX',     'MX'),
-		('NAPTR',  'NAPTR'),
-		('NS',     'NS'),
-		('NSEC',   'NSEC'),
-		('PTR',    'PTR'),
-		('RRSIG',  'RRSIG'),
-		('SPF',    'SPF'),
-		('SRV',    'SRV'),
-		('TXT',    'TXT'),
+		("A", "A"),
+		("AAAA", "AAAA"),
+		("CAA", "CAA"),
+		("CERT", "CERT"),
+		("CNAME", "CNAME"),
+		("DNSKEY", "DNSKEY"),
+		("DS", "DS"),
+		("DNSKEY", "DNSKEY"),
+		("KEY", "KEY"),
+		("LOC", "LOC"),
+		("MX", "MX"),
+		("NAPTR", "NAPTR"),
+		("NS", "NS"),
+		("NSEC", "NSEC"),
+		("PTR", "PTR"),
+		("RRSIG", "RRSIG"),
+		("SPF", "SPF"),
+		("SRV", "SRV"),
+		("TXT", "TXT"),
 	)
 
-	name  = models.CharField(max_length=default_length, blank=True)
-	ttl   = models.IntegerField(null=True, blank=True, verbose_name='TTL')
-	type  = models.CharField(max_length=8, choices=RECORD_TYPES)
+	name = models.CharField(max_length=default_length, blank=True)
+	ttl = models.IntegerField(null=True, blank=True, verbose_name="TTL")
+	type = models.CharField(max_length=8, choices=RECORD_TYPES)
 	value = models.CharField(max_length=default_length)
 
 	class Meta:
@@ -52,24 +53,34 @@ class Record(models.Model):
 
 	def format(self, zone):
 		v = self.value
-		if self.type in ('TXT', 'SPF') and v[0] != '"':
+		if self.type in ("TXT", "SPF") and v[0] != '"':
 			v = '"' + v + '"'
-		ttl = (' ' + str(self.ttl)) if self.ttl else ''
-		return (self.name + '.' if self.name else '') + zone + ttl + ' IN ' + self.type + ' ' + v
+		ttl = (" " + str(self.ttl)) if self.ttl else ""
+		return (
+			(self.name + "." if self.name else "")
+			+ zone
+			+ ttl
+			+ " IN "
+			+ self.type
+			+ " "
+			+ v
+		)
 
 	def __str__(self):
-		return self.format('')
+		return self.format("")
 
 
 class ZoneRecord(Record):
-	zone = models.ForeignKey(Zone, on_delete = models.CASCADE, related_name = 'records')
+	zone = models.ForeignKey(Zone, on_delete=models.CASCADE, related_name="records")
 
 	def __str__(self):
 		return self.format(str(self.zone))
 
 
 class TemplateRecord(Record):
-	template  = models.ForeignKey(Template, on_delete = models.CASCADE, related_name = 'records')
+	template = models.ForeignKey(
+		Template, on_delete=models.CASCADE, related_name="records"
+	)
 
 
 class OperatingSystem(models.Model):
@@ -78,37 +89,44 @@ class OperatingSystem(models.Model):
 	def __str__(self):
 		return self.name
 
+
 class DeviceType(models.Model):
 	name = models.CharField(max_length=default_length, primary_key=True, unique=True)
 
 	def __str__(self):
 		return self.name
 
+
 class Contact(models.Model):
-	nick  = models.CharField(max_length=default_length, primary_key=True, unique=True)
-	name  = models.CharField(max_length=default_length)
+	nick = models.CharField(max_length=default_length, primary_key=True, unique=True)
+	name = models.CharField(max_length=default_length)
 	email = models.EmailField()
 
 	def __str__(self):
 		return self.nick
 
+
 class Device(models.Model):
-	name    = models.CharField(max_length=default_length)
-	contact = models.ForeignKey(Contact, on_delete = models.PROTECT)
-	type    = models.ForeignKey(DeviceType, on_delete = models.PROTECT)
-	os      = models.ForeignKey(OperatingSystem, verbose_name='Operating System', on_delete = models.PROTECT)
-	info    = models.CharField(max_length=default_length, blank=True)
+	name = models.CharField(max_length=default_length)
+	contact = models.ForeignKey(Contact, on_delete=models.PROTECT)
+	type = models.ForeignKey(DeviceType, on_delete=models.PROTECT)
+	os = models.ForeignKey(
+		OperatingSystem, verbose_name="Operating System", on_delete=models.PROTECT
+	)
+	info = models.CharField(max_length=default_length, blank=True)
 
 	def __str__(self):
 		return self.name
 
 
 class Address(models.Model):
-	device       = models.ForeignKey(Device, on_delete = models.CASCADE, related_name = 'addresses')
-	ip           = models.GenericIPAddressField()
-	prefix_len   = models.IntegerField(verbose_name='Prefix Length')
-	name         = models.CharField(max_length=default_length)
-	zone         = models.ForeignKey(Zone, on_delete = models.CASCADE,  related_name = 'addresses')
+	device = models.ForeignKey(
+		Device, on_delete=models.CASCADE, related_name="addresses"
+	)
+	ip = models.GenericIPAddressField()
+	prefix_len = models.IntegerField(verbose_name="Prefix Length")
+	name = models.CharField(max_length=default_length)
+	zone = models.ForeignKey(Zone, on_delete=models.CASCADE, related_name="addresses")
 	reverse_zone = models.CharField(max_length=default_length)
 
 	def save(self, *args, **kwargs):
@@ -127,14 +145,14 @@ class Address(models.Model):
 		return str(IPy.IP(self.ip).make_net(self.prefix_len))
 
 	def __str__(self):
-		return self.ip + '/' + str(self.prefix_len)
+		return self.ip + "/" + str(self.prefix_len)
 
 
 class CachedZone(models.Model):
-	key     = models.CharField(max_length=default_length, primary_key=True, unique=True)
-	tag     = models.CharField(max_length=default_length)
-	value   = models.TextField(max_length=default_length)
+	key = models.CharField(max_length=default_length, primary_key=True, unique=True)
+	tag = models.CharField(max_length=default_length)
+	value = models.TextField(max_length=default_length)
 	updated = models.DateTimeField()
 
 	def __str__(self):
-		return self.updated.strftime('%s') + ': ' + self.key
+		return self.updated.strftime("%s") + ": " + self.key

@@ -2,82 +2,83 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-SECRET_KEY = 'sb$z85@ix+!ur1wcl8ua)4-#iqr*5&)r$!+w@#r)zw&ifb1x=#'
+SECRET_KEY = "sb$z85@ix+!ur1wcl8ua)4-#iqr*5&)r$!+w@#r)zw&ifb1x=#"
 DEBUG = True
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = (
-	'django.contrib.admin',
-	'django.contrib.auth',
-	'django.contrib.contenttypes',
-	'django.contrib.sessions',
-	'django.contrib.messages',
-	'django.contrib.staticfiles',
-	'rest_framework',
-	'drf_spectacular',
-	'netmgt',
+	"django.contrib.admin",
+	"django.contrib.auth",
+	"django.contrib.contenttypes",
+	"django.contrib.sessions",
+	"django.contrib.messages",
+	"django.contrib.staticfiles",
+	"rest_framework",
+	"drf_spectacular",
+	"netmgt",
 )
 
 MIDDLEWARE = [
-	'django.middleware.security.SecurityMiddleware',
-	'django.contrib.sessions.middleware.SessionMiddleware',
-	'django.middleware.common.CommonMiddleware',
-	'django.middleware.csrf.CsrfViewMiddleware',
-	'django.contrib.auth.middleware.AuthenticationMiddleware',
-	'django.contrib.messages.middleware.MessageMiddleware',
-	'django.middleware.clickjacking.XFrameOptionsMiddleware',
+	"django.middleware.security.SecurityMiddleware",
+	"django.contrib.sessions.middleware.SessionMiddleware",
+	"django.middleware.common.CommonMiddleware",
+	"django.middleware.csrf.CsrfViewMiddleware",
+	"django.contrib.auth.middleware.AuthenticationMiddleware",
+	"django.contrib.messages.middleware.MessageMiddleware",
+	"django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = 'netmgt_web.urls'
-WSGI_APPLICATION = 'netmgt_web.wsgi.application'
+ROOT_URLCONF = "netmgt_web.urls"
+WSGI_APPLICATION = "netmgt_web.wsgi.application"
 
 DATABASES = {
-	'default': {
-		'ENGINE': 'django.db.backends.sqlite3',
-		'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+	"default": {
+		"ENGINE": "django.db.backends.sqlite3",
+		"NAME": os.path.join(BASE_DIR, "db.sqlite3"),
 	}
 }
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 CACHES = {
-	'default': {
-		'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-		'LOCATION': 'MEM',
+	"default": {
+		"BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+		"LOCATION": "MEM",
 	}
 }
 
 TEMPLATES = [
-{
-	'BACKEND': 'django.template.backends.django.DjangoTemplates',
-	'DIRS': [os.path.join(BASE_DIR,'templates')],
-	'APP_DIRS': True,
-	'OPTIONS': {
-		'context_processors': [
-			'django.template.context_processors.debug',
-			'django.template.context_processors.request',
-			'django.contrib.auth.context_processors.auth',
-			'django.contrib.messages.context_processors.messages',
-		],
+	{
+		"BACKEND": "django.template.backends.django.DjangoTemplates",
+		"DIRS": [os.path.join(BASE_DIR, "templates")],
+		"APP_DIRS": True,
+		"OPTIONS": {
+			"context_processors": [
+				"django.template.context_processors.debug",
+				"django.template.context_processors.request",
+				"django.contrib.auth.context_processors.auth",
+				"django.contrib.messages.context_processors.messages",
+			],
+		},
 	},
-},]
+]
 
-LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
+LANGUAGE_CODE = "en-us"
+TIME_ZONE = "UTC"
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-STATIC_URL = '/static/'
+STATIC_URL = "/static/"
 
 
 # DRF
 REST_FRAMEWORK = {
-	'DEFAULT_RENDERER_CLASSES': [
-		'rest_framework.renderers.JSONRenderer',
-		'rest_framework.renderers.BrowsableAPIRenderer',
+	"DEFAULT_RENDERER_CLASSES": [
+		"rest_framework.renderers.JSONRenderer",
+		"rest_framework.renderers.BrowsableAPIRenderer",
 	],
-	'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+	"DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 
@@ -86,16 +87,16 @@ REST_FRAMEWORK = {
 NETMGT_DEFAULT_TTL = 3600
 NETMGT_DEFAULT_NAMESERVERS_TTL = 86400
 NETMGT_DEFAULT_NAMESERVERS = [
-	'ns1.example.com',
-	'ns2.example.com',
-	'ns3.example.com',
+	"ns1.example.com",
+	"ns2.example.com",
+	"ns3.example.com",
 ]
-NETMGT_HOSTMASTER = 'hostmaster.example.com'
+NETMGT_HOSTMASTER = "hostmaster.example.com"
 NETMGT_SOA = {
-	'refresh': '2d',
-	'retry':   '15M',
-	'expiry':  '2w',
-	'minimum': '1h',
+	"refresh": "2d",
+	"retry": "15M",
+	"expiry": "2w",
+	"minimum": "1h",
 }
-NETMGT_DNS_TOKEN = 'secure'
-NETMGT_EXPORT_PREFIX = 'core'
+NETMGT_DNS_TOKEN = "secure"
+NETMGT_EXPORT_PREFIX = "core"

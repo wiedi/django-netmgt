@@ -1,15 +1,27 @@
 import factory
-from factory.django import DjangoModelFactory
 from django.contrib.auth.models import User
+from factory.django import DjangoModelFactory
 
-from netmgt.models import Zone, Template, ZoneRecord, TemplateRecord, DeviceType, Contact, OperatingSystem, Device, Address
+from netmgt.models import (
+	Address,
+	Contact,
+	Device,
+	DeviceType,
+	OperatingSystem,
+	Template,
+	TemplateRecord,
+	Zone,
+	ZoneRecord,
+)
+
 
 class UserFactory(DjangoModelFactory):
-    username = factory.Sequence(lambda n: f"user{n}")
-    email = factory.LazyAttribute(lambda obj: f"{obj.username}@example.com")
+	username = factory.Sequence(lambda n: f"user{n}")
+	email = factory.LazyAttribute(lambda obj: f"{obj.username}@example.com")
 
-    class Meta:
-        model = User
+	class Meta:
+		model = User
+
 
 class ZoneFactory(DjangoModelFactory):
 	name = factory.Sequence(lambda n: f"zone-{n}.example.com")
@@ -17,11 +29,13 @@ class ZoneFactory(DjangoModelFactory):
 	class Meta:
 		model = Zone
 
+
 class TemplateFactory(DjangoModelFactory):
 	name = factory.Sequence(lambda n: f"Template-{n}")
 
 	class Meta:
 		model = Template
+
 
 class ZoneRecordFactory(DjangoModelFactory):
 	zone = factory.SubFactory(ZoneFactory)
@@ -32,6 +46,7 @@ class ZoneRecordFactory(DjangoModelFactory):
 	class Meta:
 		model = ZoneRecord
 
+
 class TemplateRecordFactory(DjangoModelFactory):
 	template = factory.SubFactory(TemplateFactory)
 	name = factory.Sequence(lambda n: f"record-{n}")
@@ -41,17 +56,20 @@ class TemplateRecordFactory(DjangoModelFactory):
 	class Meta:
 		model = TemplateRecord
 
+
 class DeviceTypeFactory(DjangoModelFactory):
 	name = factory.Sequence(lambda n: f"DeviceType{n}")
 
 	class Meta:
 		model = DeviceType
 
+
 class OperatingSystemFactory(DjangoModelFactory):
 	name = factory.Sequence(lambda n: f"OperatingSystem{n}")
 
 	class Meta:
 		model = OperatingSystem
+
 
 class ContactFactory(DjangoModelFactory):
 	nick = factory.Sequence(lambda n: f"Contact{n}")
@@ -61,6 +79,7 @@ class ContactFactory(DjangoModelFactory):
 	class Meta:
 		model = Contact
 
+
 class DeviceFactory(DjangoModelFactory):
 	name = factory.Sequence(lambda n: f"device-{n}")
 	contact = factory.SubFactory(ContactFactory)
@@ -69,6 +88,7 @@ class DeviceFactory(DjangoModelFactory):
 
 	class Meta:
 		model = Device
+
 
 class AddressFactory(DjangoModelFactory):
 	device = factory.SubFactory(DeviceFactory)
