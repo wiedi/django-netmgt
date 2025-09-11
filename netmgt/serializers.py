@@ -63,3 +63,9 @@ class ContactSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Contact
 		fields = ["nick", "name", "email"]
+
+
+class SetACMEChallangeSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Zone
+		fields = ["acme_challange", "acme_admin_token"]

@@ -1,3 +1,5 @@
+import secrets
+
 import IPy
 from django.db import models
 
@@ -15,9 +17,16 @@ class Zone(models.Model):
 	name = models.CharField(max_length=default_length, primary_key=True, unique=True)
 	ttl = models.IntegerField(null=True, blank=True, verbose_name="TTL")
 	templates = models.ManyToManyField(Template, blank=True)
+	acme_challange = models.CharField(max_length=default_length, blank=True)
+	acme_admin_token = models.CharField(max_length=default_length, blank=True)
 
 	def __str__(self):
 		return str(self.name) + "."
+
+	def save(self, **kwargs):
+		if not self.acme_admin_token:
+			self.acme_admin_token = secrets.token_urlsafe(32)
+		super().save(**kwargs)
 
 
 class Record(models.Model):

@@ -50,6 +50,10 @@ def generate_zone(zone, serial=0):
 	out += "; records\n"
 	for record in zone.records.all():
 		out += str(record) + "\n"
+
+	if zone.acme_challange:
+		out += "; acme\n"
+		out += f"_acme-challenge.{zone} IN TXT {zone.acme_challange}\n"
 	return out
 
 

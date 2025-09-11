@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django_object_actions import DjangoObjectActions, action
 
 from netmgt.models import *
 
@@ -20,11 +21,18 @@ class AddressInline(admin.TabularInline):
 	exclude = ("reverse_zone",)
 
 
-class ZoneAdmin(admin.ModelAdmin):
+class ZoneAdmin(DjangoObjectActions, admin.ModelAdmin):
+	@action(label="Reset ACME Admin Token")
+	def reset_acme_admin_token(self, request, obj):
+		obj.acme_admin_token = ""
+		obj.save()
+
 	form = ZoneAdminForm
 	inlines = [AddressInline, ZoneRecordAdmin]
 	search_fields = ["name"]
 	ordering = ["name"]
+	readonly_fields = ["acme_admin_token"]
+	change_actions = ["reset_acme_admin_token"]
 
 
 class TemplateAdmin(admin.ModelAdmin):

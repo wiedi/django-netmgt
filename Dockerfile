@@ -16,4 +16,8 @@ RUN ipython profile create && echo "c.TerminalInteractiveShell.display_completio
 COPY req.txt .
 RUN pip install -r req.txt
 
+RUN pip install certbot==5.0.0
+
 COPY . /app/
+
+RUN pip install -e certbot_plugin/

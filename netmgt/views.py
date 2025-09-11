@@ -1,5 +1,6 @@
 from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import action
+from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
@@ -17,7 +18,22 @@ class ZoneViewSet(viewsets.ModelViewSet):
 	queryset = Zone.objects.all()
 	serializer_class = ZoneSerializer
 	permission_classes = [IsAuthenticated]
-	lookup_value_regex = "[0-9a-zA-Z.]+"
+	lookup_value_regex = "[0-9a-zA-Z.-]+"
+
+	@action(detail=True, methods=["post"], permission_classes=[])
+	def set_acme_challange(self, request, pk):
+		zone = self.get_object()
+		serializer = SetACMEChallangeSerializer(data=request.data)
+		serializer.is_valid(raise_exception=True)
+		if (
+			not zone.acme_admin_token
+			or serializer.validated_data.get("acme_admin_token")
+			!= zone.acme_admin_token
+		):
+			raise AuthenticationFailed()
+		zone.acme_challange = serializer.validated_data.get("acme_challange", "")
+		zone.save()
+		return Response(SetACMEChallangeSerializer(zone).data)
 
 
 class TemplateRecordViewSet(viewsets.ModelViewSet):

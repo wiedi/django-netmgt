@@ -19,3 +19,10 @@ test:
 	docker exec -it $(container_name) bash -c "pytest"
 format:
 	docker exec -it $(container_name) sh -c "isort . && ruff format"
+publish-plugin:
+	( \
+		cd certbot_plugin; \
+		rm -f dist/*; \
+		python3 -m build --sdist; \
+		python3 -m twine upload --verbose dist/*; \
+	)

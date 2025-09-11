@@ -16,7 +16,7 @@ from netmgt.tests.factories import (
 @pytest.mark.django_db
 def test_export_text(client):
 	cache.clear()
-	AddressFactory()
+	addr = AddressFactory()
 
 	url = reverse("export_text")
 
@@ -29,14 +29,14 @@ def test_export_text(client):
 	response = client.get(url, {"token": settings.NETMGT_DNS_TOKEN})
 	assert response.status_code == 200
 	assert response.content.decode("utf-8").splitlines() == [
-		"; zone: zone-0.example.com.",
+		f"; zone: {addr.zone.name}.",
 		"$TTL    3600",
 		f"@                  IN      SOA     ns1.example.com. hostmaster.example.com. ( {serial} 2d 15M 2w 1h )",
 		"        86400      IN      NS      ns1.example.com.",
 		"        86400      IN      NS      ns2.example.com.",
 		"        86400      IN      NS      ns3.example.com.",
 		"; devices",
-		"addr-0.zone-0.example.com. IN AAAA 2001:db8::",
+		f"{addr.name}.{addr.zone} IN AAAA 2001:db8::",
 		"; records",
 		"",
 		"",
@@ -47,7 +47,7 @@ def test_export_text(client):
 		"        86400      IN      NS      ns2.example.com.",
 		"        86400      IN      NS      ns3.example.com.",
 		"; devices",
-		"0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.8.b.d.0.1.0.0.2.ip6.arpa. IN PTR addr-0.zone-0.example.com.",
+		f"0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.8.b.d.0.1.0.0.2.ip6.arpa. IN PTR {addr.name}.{addr.zone}",
 	]
 
 
@@ -76,4 +76,46 @@ def test_generate_bind_conf():
 		"# generated - do not modify",
 		f'zone "{address.zone.name}." {{ type master; file "zones/core/{address.zone.name}.zone"; }};',
 		'zone "0.0.0.0.0.0.0.0.8.b.d.0.1.0.0.2.ip6.arpa." { type master; file "zones/core/0.0.0.0.0.0.0.0.8.b.d.0.1.0.0.2.ip6.arpa.zone"; };',
+	]
+
+
+@pytest.mark.django_db
+def test_export_acme_text(client):
+	cache.clear()
+	addr = AddressFactory(ip="192.168.15.7", prefix_len=25, name="test")
+	addr.zone.acme_challange = "acme_challange_42"
+	addr.zone.save()
+
+	url = reverse("export_text")
+
+	# generate cached zone
+	response = client.get(url, {"token": settings.NETMGT_DNS_TOKEN})
+
+	cached = CachedZone.objects.first()
+	serial = cached.updated.strftime("%s")
+
+	response = client.get(url, {"token": settings.NETMGT_DNS_TOKEN})
+	assert response.status_code == 200
+	assert response.content.decode("utf-8").splitlines() == [
+		f"; zone: {addr.zone}",
+		"$TTL    3600",
+		f"@                  IN      SOA     ns1.example.com. hostmaster.example.com. ( {serial} 2d 15M 2w 1h )",
+		"        86400      IN      NS      ns1.example.com.",
+		"        86400      IN      NS      ns2.example.com.",
+		"        86400      IN      NS      ns3.example.com.",
+		"; devices",
+		f"{addr.name}.{addr.zone} IN A 192.168.15.7",
+		"; records",
+		"; acme",
+		f"_acme-challenge.{addr.zone} IN TXT acme_challange_42",
+		"",
+		"",
+		"; zone: 0-127.15.168.192.in-addr.arpa.",
+		"$TTL    3600",
+		f"@                  IN      SOA     ns1.example.com. hostmaster.example.com. ( {serial} 2d 15M 2w 1h )",
+		"        86400      IN      NS      ns1.example.com.",
+		"        86400      IN      NS      ns2.example.com.",
+		"        86400      IN      NS      ns3.example.com.",
+		"; devices",
+		f"7.0-127.15.168.192.in-addr.arpa. IN PTR {addr.name}.{addr.zone}",
 	]
