@@ -1187,7 +1187,7 @@ paths:
         name: domain
         schema:
           type: string
-          pattern: ^[^/]+$
+          pattern: ^[a-zA-Z0-9.*-]+$
         required: true
       - in: path
         name: name
@@ -1622,10 +1622,10 @@ components:
       properties:
         domain:
           type: string
-          maxLength: 254
+          maxLength: 250
         acme_challange:
           type: string
-          maxLength: 254
+          maxLength: 250
       required:
       - acme_challange
       - domain
