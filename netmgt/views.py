@@ -3,7 +3,9 @@ from rest_framework.decorators import action
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from drf_spectacular.utils import extend_schema
 
+from netmgt.models import ZoneRecord
 from netmgt.serializers import *
 
 
@@ -20,8 +22,17 @@ class ZoneViewSet(viewsets.ModelViewSet):
 	permission_classes = [IsAuthenticated]
 	lookup_value_regex = "[0-9a-zA-Z.-]+"
 
-	@action(detail=True, methods=["post"], permission_classes=[])
-	def set_acme_challange(self, request, pk):
+	@extend_schema(
+		request=SetACMEChallangeSerializer,
+		responses=ResonseACMEChallangeSerializer,
+	)
+	@action(
+		detail=True,
+		methods=["post"],
+		permission_classes=[],
+		url_path=r"set_acme_challange/(?P<domain>[a-zA-Z0-9.*-]+)",
+	)
+	def set_acme_challange(self, request, pk, domain):
 		zone = self.get_object()
 		serializer = SetACMEChallangeSerializer(data=request.data)
 		serializer.is_valid(raise_exception=True)
@@ -31,9 +42,25 @@ class ZoneViewSet(viewsets.ModelViewSet):
 			!= zone.acme_admin_token
 		):
 			raise AuthenticationFailed()
-		zone.acme_challange = serializer.validated_data.get("acme_challange", "")
-		zone.save()
-		return Response(SetACMEChallangeSerializer(zone).data)
+
+		is_wildcard = domain.startswith("*.")
+		effective_domain = domain[2:] if is_wildcard else domain
+
+		acme_value = serializer.validated_data.get("acme_challange", "")
+
+		if effective_domain == zone.name:
+			zone.acme_challange = acme_value
+			zone.save()
+		else:
+			subdomain_prefix = effective_domain[: -(len(zone.name) + 1)]
+			record_name = f"_acme-challenge.{subdomain_prefix}"
+			ZoneRecord.objects.filter(zone=zone, name=record_name, type="TXT").delete()
+			if acme_value:
+				ZoneRecord.objects.create(
+					zone=zone, name=record_name, type="TXT", value=acme_value
+				)
+
+		return Response(ResonseACMEChallangeSerializer({"domain": domain, "acme_challange": acme_value}).data)
 
 
 class TemplateRecordViewSet(viewsets.ModelViewSet):

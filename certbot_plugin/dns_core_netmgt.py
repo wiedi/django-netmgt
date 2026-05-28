@@ -40,7 +40,8 @@ class Authenticator(dns_common.DNSAuthenticator):
 	def _netmgt_post(self, domain, data):
 		endpoint = self.credentials.conf("endpoint")
 		admin_token = self.credentials.conf("admin_token")
-		url = f"{endpoint}/netmgt/api/zone/{domain}/set_acme_challange/"
+		zone = ".".join(domain.split(".")[1:])
+		url = f"{endpoint}/netmgt/api/zone/{zone}/set_acme_challange/{domain}/"
 		data["acme_admin_token"] = admin_token
 		req = requests.post(url, json=data)
 		req.raise_for_status()
