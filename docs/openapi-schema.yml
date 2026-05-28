@@ -1179,6 +1179,45 @@ paths:
       responses:
         '204':
           description: No response body
+  /netmgt/api/zone/{name}/set_acme_challange/{domain}/:
+    post:
+      operationId: zone_set_acme_challange_create
+      parameters:
+      - in: path
+        name: domain
+        schema:
+          type: string
+          pattern: ^[^/]+$
+        required: true
+      - in: path
+        name: name
+        schema:
+          type: string
+        description: A unique value identifying this zone.
+        required: true
+      tags:
+      - zone
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetACMEChallange'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SetACMEChallange'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SetACMEChallange'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResonseACMEChallange'
+          description: ''
   /netmgt/api/zone_record/:
     get:
       operationId: zone_record_list
@@ -1576,6 +1615,27 @@ components:
         type:
           $ref: '#/components/schemas/TypeEnum'
         value:
+          type: string
+          maxLength: 250
+    ResonseACMEChallange:
+      type: object
+      properties:
+        domain:
+          type: string
+          maxLength: 254
+        acme_challange:
+          type: string
+          maxLength: 254
+      required:
+      - acme_challange
+      - domain
+    SetACMEChallange:
+      type: object
+      properties:
+        acme_challange:
+          type: string
+          maxLength: 250
+        acme_admin_token:
           type: string
           maxLength: 250
     Template:

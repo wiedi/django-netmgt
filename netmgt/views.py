@@ -3,6 +3,7 @@ from rest_framework.decorators import action
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from drf_spectacular.utils import extend_schema
 
 from netmgt.models import ZoneRecord
 from netmgt.serializers import *
@@ -21,11 +22,15 @@ class ZoneViewSet(viewsets.ModelViewSet):
 	permission_classes = [IsAuthenticated]
 	lookup_value_regex = "[0-9a-zA-Z.-]+"
 
+	@extend_schema(
+		request=SetACMEChallangeSerializer,
+		responses=ResonseACMEChallangeSerializer,
+	)
 	@action(
 		detail=True,
 		methods=["post"],
 		permission_classes=[],
-		url_path=r"set_acme_challange/(?P<domain>[^/]+)",
+		url_path=r"set_acme_challange/(?P<domain>[a-zA-Z0-9.*-]+)",
 	)
 	def set_acme_challange(self, request, pk, domain):
 		zone = self.get_object()
@@ -55,7 +60,7 @@ class ZoneViewSet(viewsets.ModelViewSet):
 					zone=zone, name=record_name, type="TXT", value=acme_value
 				)
 
-		return Response({"domain": domain, "acme_challange": acme_value})
+		return Response(ResonseACMEChallangeSerializer({"domain": domain, "acme_challange": acme_value}).data)
 
 
 class TemplateRecordViewSet(viewsets.ModelViewSet):

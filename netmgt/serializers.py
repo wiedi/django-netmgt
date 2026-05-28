@@ -69,3 +69,8 @@ class SetACMEChallangeSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Zone
 		fields = ["acme_challange", "acme_admin_token"]
+
+
+class ResonseACMEChallangeSerializer(serializers.Serializer):
+    domain = serializers.CharField(max_length=250)
+    acme_challange = serializers.CharField(max_length=250)
