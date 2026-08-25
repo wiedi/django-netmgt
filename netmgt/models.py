@@ -55,15 +55,15 @@ class Record(models.Model):
 	name = models.CharField(max_length=default_length, blank=True)
 	ttl = models.IntegerField(null=True, blank=True, verbose_name="TTL")
 	type = models.CharField(max_length=8, choices=RECORD_TYPES)
-	value = models.CharField(max_length=default_length)
+	value = models.CharField(max_length=1024)
 
 	class Meta:
 		abstract = True
 
 	def format(self, zone):
 		v = self.value
-		if self.type in ("TXT", "SPF") and v[0] != '"':
-			v = '"' + v + '"'
+		if self.type in ("TXT", "SPF"):
+			v = self._chunk_txt(v)
 		ttl = (" " + str(self.ttl)) if self.ttl else ""
 		return (
 			(self.name + "." if self.name else "")
@@ -74,6 +74,12 @@ class Record(models.Model):
 			+ " "
 			+ v
 		)
+
+	def _chunk_txt(self, value):
+		"""Chunk a TXT/SPF value per RFC 1035 (max 256 characters per DNS string)."""
+		inner = value.strip('"')
+		chunks = [inner[i : i + 253] for i in range(0, len(inner), 253)]
+		return " ".join('"' + c + '"' for c in chunks)
 
 	def __str__(self):
 		return self.format("")
