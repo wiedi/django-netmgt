@@ -55,7 +55,7 @@ class Record(models.Model):
 	name = models.CharField(max_length=default_length, blank=True)
 	ttl = models.IntegerField(null=True, blank=True, verbose_name="TTL")
 	type = models.CharField(max_length=8, choices=RECORD_TYPES)
-	value = models.CharField(max_length=1024)
+	value = models.TextField()
 
 	class Meta:
 		abstract = True
