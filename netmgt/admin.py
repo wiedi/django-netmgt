@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.contrib.admin.widgets import AdminTextInputWidget
+from django.db import models as db_models
 from django_object_actions import DjangoObjectActions, action
 
 from netmgt.models import *
@@ -6,12 +8,16 @@ from netmgt.models import *
 from .forms import *
 
 
-class ZoneRecordAdmin(admin.TabularInline):
+class RecordInline(admin.TabularInline):
+	formfield_overrides = {db_models.TextField: {"widget": AdminTextInputWidget}}
+
+
+class ZoneRecordAdmin(RecordInline):
 	model = ZoneRecord
 	form = ZoneRecordForm
 
 
-class TemplateRecordAdmin(admin.TabularInline):
+class TemplateRecordAdmin(RecordInline):
 	model = TemplateRecord
 	form = TemplateRecordForm
 
