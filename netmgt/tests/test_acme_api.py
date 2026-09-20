@@ -13,7 +13,7 @@ def test_update_acme_challange():
 	assert zone.acme_admin_token
 	assert not zone.acme_challange
 
-	url = reverse("zone-set-acme-challange", args=[zone.name])
+	url = reverse("zone-set-acme-challange", args=[zone.name, zone.name])
 	client = APIClient()
 
 	response = client.post(
@@ -35,7 +35,7 @@ def test_update_acme_challange_empty_token():
 	assert not zone.acme_admin_token
 	assert zone.acme_challange
 
-	url = reverse("zone-set-acme-challange", args=[zone.name])
+	url = reverse("zone-set-acme-challange", args=[zone.name, zone.name])
 	client = APIClient()
 
 	response = client.post(url, {"acme_admin_token": "", "acme_challange": "random"})
@@ -53,7 +53,7 @@ def test_update_acme_challange_unset():
 	assert zone.acme_admin_token
 	assert zone.acme_challange
 
-	url = reverse("zone-set-acme-challange", args=[zone.name])
+	url = reverse("zone-set-acme-challange", args=[zone.name, zone.name])
 	client = APIClient()
 
 	response = client.post(
