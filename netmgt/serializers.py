@@ -72,5 +72,5 @@ class SetACMEChallangeSerializer(serializers.ModelSerializer):
 
 
 class ResonseACMEChallangeSerializer(serializers.Serializer):
-    domain = serializers.CharField(max_length=250)
-    acme_challange = serializers.CharField(max_length=250)
+	domain = serializers.CharField(max_length=250)
+	acme_challange = serializers.CharField(max_length=250)

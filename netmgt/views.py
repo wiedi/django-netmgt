@@ -1,9 +1,9 @@
+from drf_spectacular.utils import extend_schema
 from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from drf_spectacular.utils import extend_schema
 
 from netmgt.models import ZoneRecord
 from netmgt.serializers import *
@@ -60,7 +60,11 @@ class ZoneViewSet(viewsets.ModelViewSet):
 					zone=zone, name=record_name, type="TXT", value=acme_value
 				)
 
-		return Response(ResonseACMEChallangeSerializer({"domain": domain, "acme_challange": acme_value}).data)
+		return Response(
+			ResonseACMEChallangeSerializer(
+				{"domain": domain, "acme_challange": acme_value}
+			).data
+		)
 
 
 class TemplateRecordViewSet(viewsets.ModelViewSet):

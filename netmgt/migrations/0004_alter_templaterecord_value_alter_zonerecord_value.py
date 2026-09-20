@@ -4,20 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
+	dependencies = [
+		("netmgt", "0003_alter_templaterecord_value_alter_zonerecord_value"),
+	]
 
-    dependencies = [
-        ('netmgt', '0003_alter_templaterecord_value_alter_zonerecord_value'),
-    ]
-
-    operations = [
-        migrations.AlterField(
-            model_name='templaterecord',
-            name='value',
-            field=models.TextField(),
-        ),
-        migrations.AlterField(
-            model_name='zonerecord',
-            name='value',
-            field=models.TextField(),
-        ),
-    ]
+	operations = [
+		migrations.AlterField(
+			model_name="templaterecord",
+			name="value",
+			field=models.TextField(),
+		),
+		migrations.AlterField(
+			model_name="zonerecord",
+			name="value",
+			field=models.TextField(),
+		),
+	]
